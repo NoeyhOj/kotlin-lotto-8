@@ -1,6 +1,6 @@
 package lotto.model
 
-data class Total(val month: Int, val day: Int, val days: Days, val holi: Boolean)
+data class Total(val month: Int, val day: Int, val days: Days, val holi: Boolean, val isDays: Boolean)
 
 enum class Holiday(val month: Int, val day: Int) {
     ONE(1, 1),
@@ -91,7 +91,8 @@ class Calendar(private val month: String, private val day: String) {
         val schedule = mutableListOf<Total>()
         (0 until lastDay).toList().forEach { day ->
             val holi = Holiday.getMonthHoliday(month.toInt()).contains(day+1)
-            schedule.add(Total(month.toInt(), day+1, Days.entries[(day + startIndex) % 7], holi))
+            val isDays = Days.getWeekdays().contains(Days.entries[(day + startIndex) % 7])
+            schedule.add(Total(month.toInt(), day+1, Days.entries[(day + startIndex) % 7], holi, isDays))
         }
         return schedule
     }
