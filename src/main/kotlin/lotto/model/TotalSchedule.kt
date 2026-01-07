@@ -18,16 +18,19 @@ class TotalSchedule(private val weekdays: List<String>, private val weekends: Li
         var weekdayCount = 0
         var weekendCount = 0
         schedule.forEach { total ->
-            if (total.holi || !total.isDays) {
-                val token = checkInfo(total, beforeName, weekendList, weekendCount)
-                beforeName = token.first
-                weekendList = token.second
-                weekendCount = token.third
-            } else {
-                val token = checkInfo(total, beforeName, weekdayList, weekdayCount)
-                beforeName = token.first
-                weekdayList = token.second
-                weekdayCount = token.third
+            when {
+                total.holi || !total.isDays -> {
+                    val token = checkInfo(total, beforeName, weekendList, weekendCount)
+                    beforeName = token.first
+                    weekendList = token.second
+                    weekendCount = token.third
+                }
+                total.isDays -> {
+                    val token = checkInfo(total, beforeName, weekdayList, weekdayCount)
+                    beforeName = token.first
+                    weekdayList = token.second
+                    weekdayCount = token.third
+                }
             }
         }
         return totalSchedule
